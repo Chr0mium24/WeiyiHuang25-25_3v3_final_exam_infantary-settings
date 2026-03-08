@@ -99,42 +99,44 @@ __weak void Robo_Control_Task(void *config)
 		control.remote_source = Scource_Remote;
 		robo_control_flag.remote_off = 0;
 		Remote_Control();
-		flag = 0;
-		Robo_Push_Message_Cmd("Set_AA_on", flag);
-		temp = Shoot_Off;
-		Robo_Push_Message_Cmd("Shoot_Mode", temp);
-        roll = 0;
-		Robo_Push_Message_Cmd("Set_Roll", roll);
-		// s2模式
-		// switch (RC_Ctrl.rc.s2)
-		// {
-		// case RC_S_DOWM:
-		// 	temp = Shoot_Off;
-		// 	Robo_Push_Message_Cmd("Shoot_Mode", temp);
-		// 	flag = 0;
-		// 	Robo_Push_Message_Cmd("Set_AA_on", flag);
-        //     roll = 0;
-		// 	Robo_Push_Message_Cmd("Set_Roll", roll);
-		// 	break;
-		// case RC_S_MID:// start AA + low speed roll
-		// 	flag = 1;
-		// 	Robo_Push_Message_Cmd("Set_AA_on", flag);
-        //     roll = 1;
-		// 	Robo_Push_Message_Cmd("Set_Roll", roll);
-        //     Robo_Get_Message_Cmd("Shoot_Mode_temp", shoot_temp);
-		// 	Robo_Push_Message_Cmd("Shoot_Mode", shoot_temp);
-		// 	break;
-		// case RC_S_UP:// start AA+high speed roll
-		// 	flag = 1;
-		// 	Robo_Push_Message_Cmd("Set_AA_on", flag);
-        //     roll = 2;
-		// 	Robo_Push_Message_Cmd("Set_Roll", roll);
-        //     Robo_Get_Message_Cmd("Shoot_Mode_temp", shoot_temp);
-		// 	Robo_Push_Message_Cmd("Shoot_Mode", shoot_temp);
-		// 	break;
-		// default:
-		// 	break;
-		// }
+		// flag = 0;
+		// Robo_Push_Message_Cmd("Set_AA_on", flag);
+		// temp = Shoot_Off;
+		// Robo_Push_Message_Cmd("Shoot_Mode", temp);
+        // roll = 0;
+		// Robo_Push_Message_Cmd("Set_Roll", roll);
+		//s2模式
+		switch (RC_Ctrl.rc.s2)
+		{
+		case RC_S_DOWM:
+			temp = Shoot_Off;
+			Robo_Push_Message_Cmd("Shoot_Mode", temp);
+			flag = 0;
+			Robo_Push_Message_Cmd("Set_AA_on", flag);
+            roll = 0;
+			Robo_Push_Message_Cmd("Set_Roll", roll);
+			break;
+		case RC_S_MID:// start AA + low speed roll
+			flag = 0;
+			Robo_Push_Message_Cmd("Set_AA_on", flag);
+            roll = 0;
+			Robo_Push_Message_Cmd("Set_Roll", roll);
+            // Robo_Get_Message_Cmd("Shoot_Mode_temp", shoot_temp);
+			shoot_temp = Shoot_Ready;
+			Robo_Push_Message_Cmd("Shoot_Mode", shoot_temp);
+			break;
+		case RC_S_UP:// start AA+high speed roll
+			flag = 1;
+			Robo_Push_Message_Cmd("Set_AA_on", flag);
+            roll = 0;
+			Robo_Push_Message_Cmd("Set_Roll", roll);
+            // 
+			shoot_temp = Shoot_Fire;
+			Robo_Push_Message_Cmd("Shoot_Mode", shoot_temp);
+			break;
+		default:
+			break;
+		}
 	} else if (RC_Ctrl.rc.s1 == RC_S_UP) {
 		control.remote_source = Scource_Remote;
 		robo_control_flag.remote_off = 0;

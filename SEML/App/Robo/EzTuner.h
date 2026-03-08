@@ -213,7 +213,7 @@
 #define Pitch_Speed_KI 1000
 #define Pitch_Speed_KD 0.7f
 
-#define Pitch_Position_KP 120
+#define Pitch_Position_KP 200 //120
 #define Pitch_Position_KI 0
 #define Pitch_Position_KD 4
 #define Pitch_Position_MAXOUT 360
@@ -266,7 +266,7 @@
 #define DIAL_Position_MAXOUT 360
 
 //Fire power
-#define Bullet_Speed 600
+#define Bullet_Speed 800  // 600
 #define Fire_Rate 1
 
 
