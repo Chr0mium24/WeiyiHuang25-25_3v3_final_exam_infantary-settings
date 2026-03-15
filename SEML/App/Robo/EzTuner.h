@@ -218,6 +218,15 @@
 #define Pitch_Position_KD 4
 #define Pitch_Position_MAXOUT 360
 
+#define Pitch_Tiny_Threshold 0.1f // just test value
+#define Pitch_Position_Tiny_KP 200
+#define Pitch_Position_Tiny_KI 0
+#define Pitch_Position_Tiny_KD 4
+#define Pitch_Speed_Tiny_KP 800
+#define Pitch_Speed_Tiny_KI 1000
+#define Pitch_Speed_Tiny_KD 0.7f
+
+
 #define Pitch_AA_KP 1
 #define Pitch_AA_KI 0
 #define Pitch_AA_KD 0
