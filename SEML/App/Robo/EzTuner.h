@@ -210,21 +210,19 @@
 
 //PID param
 #define Pitch_Speed_KP 800
-#define Pitch_Speed_KI 1000
+#define Pitch_Speed_KI 1200 //1200
 #define Pitch_Speed_KD 0.7f
 
-#define Pitch_Position_KP 200 //120
+#define Pitch_Position_KP 120 //120
 #define Pitch_Position_KI 0
-#define Pitch_Position_KD 4
+#define Pitch_Position_KD 8
 #define Pitch_Position_MAXOUT 360
 
-#define Pitch_Tiny_Threshold 0.1f // just test value
-#define Pitch_Position_Tiny_KP 200
+#define Pitch_Tiny_Threshold 0.05f // just test value
+#define Pitch_Position_Tiny_KP 1600
 #define Pitch_Position_Tiny_KI 0
-#define Pitch_Position_Tiny_KD 4
-#define Pitch_Speed_Tiny_KP 800
-#define Pitch_Speed_Tiny_KI 1000
-#define Pitch_Speed_Tiny_KD 0.7f
+#define Pitch_Position_Tiny_KD 0
+
 
 
 #define Pitch_AA_KP 1

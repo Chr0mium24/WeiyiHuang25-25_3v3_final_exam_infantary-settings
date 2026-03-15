@@ -1,6 +1,6 @@
 #include "Robo_Gimbal.h"
 Task_Gimbal_t gimbal;
-PIDConfig_t pitchTinyPositionPID, pitchTinySpeedPID;
+PIDConfig_t pitchTinyPositionPID;
 float test_imu_pitch, test_exp_pitch, test_send;
 /**
  * @brief 云台任务初始化
@@ -25,7 +25,6 @@ __weak void Gimbal_Init(void)
 
 	// pitch分段微小pid
 
-	PID_Init(&pitchTinySpeedPID, Pitch_Speed_Tiny_KP, Pitch_Speed_Tiny_KI, Pitch_Speed_Tiny_KD, temp, -temp, 0.001f);
 	PID_Init(&pitchTinyPositionPID, Pitch_Position_Tiny_KP, Pitch_Position_Tiny_KI, Pitch_Position_Tiny_KD, Pitch_Position_MAXOUT, -Pitch_Position_MAXOUT, 0.001f);
 
 	temp = Get_DJI_Motor_Control_Max(&yaw_motor);
@@ -80,7 +79,7 @@ __weak void Gimbal_Task(void *conifg)
 		if(abs(temp-gimbal.imu->pitch + PI) < Pitch_Tiny_Threshold)
 		{
 			gimbal.pitch.expect_speed = Basic_PID_Controller(&pitchTinyPositionPID, temp, gimbal.imu->pitch + PI);
-			gimbal.pitch.send_data = Basic_PID_Controller(&pitchTinySpeedPID,gimbal.pitch.expect_speed,Get_Motor_Speed_Data(gimbal.pitch.motor));
+			gimbal.pitch.send_data = Basic_PID_Controller(&gimbal.pitch.speed_PID,gimbal.pitch.expect_speed,Get_Motor_Speed_Data(gimbal.pitch.motor));
 		}
 		else
 		{
@@ -93,7 +92,7 @@ __weak void Gimbal_Task(void *conifg)
 		if(abs(temp-gimbal.imu->pitch + PI) < Pitch_Tiny_Threshold)
 		{
 			gimbal.pitch.expect_speed = Basic_PID_Controller(&pitchTinyPositionPID, temp, gimbal.imu->pitch + PI);
-			gimbal.pitch.send_data = Basic_PID_Controller(&pitchTinySpeedPID,gimbal.pitch.expect_speed,Get_Motor_Speed_Data(gimbal.pitch.motor));
+			gimbal.pitch.send_data = Basic_PID_Controller(&gimbal.pitch.speed_PID,gimbal.pitch.expect_speed,Get_Motor_Speed_Data(gimbal.pitch.motor));
 		}
 		else
 		{

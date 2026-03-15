@@ -2,7 +2,7 @@
 #include "Robo_Common.h"
 Task_Control_t control;
 uint32_t test_shoot;
-
+uint32_t test_s1;
 __weak void Remote_Control(void)
 {
 	float temp, temp1, temp2;
@@ -82,6 +82,7 @@ __weak void Robo_Control_Task(void *config)
 	temp_f = AHRS.euler_angle.yaw;
 	Robo_Push_message_Data("Set_Gimbal_Imu_Data", (void *)&AHRS.euler_angle, sizeof(AHRS.euler_angle));
 	Robo_Push_Message_Cmd("Real_Chassis_Yaw_Angle", temp_f);
+	test_s1 = RC_Ctrl.rc.s1;
 	// S1控制源
 	if (RC_Ctrl.rc.s1 == RC_S_DOWM) {
 		control.remote_source = Scource_None;
