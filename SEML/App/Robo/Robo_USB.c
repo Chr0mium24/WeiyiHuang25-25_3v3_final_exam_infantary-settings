@@ -105,9 +105,15 @@ void set_send_packet(ReceivePacket *packet)
 
 static void send(ReceivePacket *packet)
 {
-	memcpy(usb_send, packet, sizeof(ReceivePacket)-2);
-  	packet->checksum = get_CRC16_check_sum(usb_send, sizeof(ReceivePacket)-2, 0xffff);
-	memcpy(usb_send, packet, sizeof(ReceivePacket));
+	ReceivePacket tx_packet = *packet;
+	// Keep firmware internal pitch convention unchanged, while protocol uses pitch up positive.
+	tx_packet.pitch = -tx_packet.pitch;
+	tx_packet.pitch_odom = -tx_packet.pitch_odom;
+	tx_packet.pitch_vel = -tx_packet.pitch_vel;
+
+	memcpy(usb_send, &tx_packet, sizeof(ReceivePacket)-2);
+	tx_packet.checksum = get_CRC16_check_sum(usb_send, sizeof(ReceivePacket)-2, 0xffff);
+	memcpy(usb_send, &tx_packet, sizeof(ReceivePacket));
 	CDC_Transmit_FS(usb_send, sizeof(ReceivePacket));
 }
 
@@ -126,6 +132,8 @@ static void receive(void)
 	if (usb_buf[0] == AUTO_AIMING_HEADER)
 	{
 		memcpy(&received_packet, usb_buf, sizeof(SendPacket));
+		// Keep firmware internal pitch convention unchanged, while protocol uses pitch up positive.
+		received_packet.pitch = -received_packet.pitch;
 	}
 
 	else if (usb_buf[0] == NAVIGATION_HEADER)
